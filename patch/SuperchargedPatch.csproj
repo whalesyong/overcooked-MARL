@@ -18,6 +18,7 @@
     <Compile Include="EntityPathReference.cs" />
     <Compile Include="EntityPathReferenceMarker.cs" />
     <Compile Include="Helpers.cs" />
+    <Compile Include="RichStateCollector.cs" />
     <Compile Include="TASLogicalButton.cs" />
     <Compile Include="TASPatcher.cs" />
     <Compile Include="Injection\BlockingQueue.cs" />

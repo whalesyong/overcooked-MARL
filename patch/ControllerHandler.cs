@@ -90,6 +90,7 @@ namespace SuperchargedPatch
             }
 
             ActiveStateCollector.CollectDataForFrame(data);
+            RichStateCollector.CollectDataForFrame(data);
             if (!input.__isset.nextFrame)
             {
                 simulationFrameNumber += Math.Max(data.PhysicsFramesElapsed, 0);

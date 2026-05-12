@@ -99,6 +99,7 @@ struct OutputData {
     21: optional string levelName,
     22: map<i32, OneInputData> observedInput,
     23: bool fullSnapshot,
+    24: list<EntityWarpSpec> entityState,
 }
 
 struct EntityIdOrRef {

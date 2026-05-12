@@ -45,6 +45,7 @@ namespace Hpmv
     private string _levelName;
     private Dictionary<int, OneInputData> _observedInput;
     private bool _fullSnapshot;
+    private List<EntityWarpSpec> _entityState;
 
     public Dictionary<int, ChefSpecificData> Chefs
     {
@@ -332,6 +333,19 @@ namespace Hpmv
       }
     }
 
+    public List<EntityWarpSpec> EntityState
+    {
+      get
+      {
+        return _entityState;
+      }
+      set
+      {
+        __isset.entityState = true;
+        this._entityState = value;
+      }
+    }
+
 
     public Isset __isset;
     #if !SILVERLIGHT
@@ -360,6 +374,7 @@ namespace Hpmv
       public bool levelName;
       public bool observedInput;
       public bool fullSnapshot;
+      public bool entityState;
     }
 
     public OutputData() {
@@ -591,6 +606,24 @@ namespace Hpmv
             case 23:
               if (field.Type == TType.Bool) {
                 FullSnapshot = iprot.ReadBool();
+              } else { 
+                TProtocolUtil.Skip(iprot, field.Type);
+              }
+              break;
+            case 24:
+              if (field.Type == TType.List) {
+                {
+                  EntityState = new List<EntityWarpSpec>();
+                  TList _list39 = iprot.ReadListBegin();
+                  for( int _i40 = 0; _i40 < _list39.Count; ++_i40)
+                  {
+                    EntityWarpSpec _elem41;
+                    _elem41 = new EntityWarpSpec();
+                    _elem41.Read(iprot);
+                    EntityState.Add(_elem41);
+                  }
+                  iprot.ReadListEnd();
+                }
               } else { 
                 TProtocolUtil.Skip(iprot, field.Type);
               }
@@ -830,6 +863,21 @@ namespace Hpmv
           oprot.WriteBool(FullSnapshot);
           oprot.WriteFieldEnd();
         }
+        if (EntityState != null && __isset.entityState) {
+          field.Name = "entityState";
+          field.Type = TType.List;
+          field.ID = 24;
+          oprot.WriteFieldBegin(field);
+          {
+            oprot.WriteListBegin(new TList(TType.Struct, EntityState.Count));
+            foreach (EntityWarpSpec _iter42 in EntityState)
+            {
+              _iter42.Write(oprot);
+            }
+            oprot.WriteListEnd();
+          }
+          oprot.WriteFieldEnd();
+        }
         oprot.WriteFieldStop();
         oprot.WriteStructEnd();
       }
@@ -973,6 +1021,12 @@ namespace Hpmv
         __first = false;
         __sb.Append("FullSnapshot: ");
         __sb.Append(FullSnapshot);
+      }
+      if (EntityState != null && __isset.entityState) {
+        if(!__first) { __sb.Append(", "); }
+        __first = false;
+        __sb.Append("EntityState: ");
+        __sb.Append(EntityState);
       }
       __sb.Append(")");
       return __sb.ToString();

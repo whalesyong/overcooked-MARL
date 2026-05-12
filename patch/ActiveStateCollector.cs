@@ -163,7 +163,7 @@ namespace SuperchargedPatch
             currentFrameData.FrameNumber = FrameNumber;
         }
 
-        private static ChefSpecificData CollectDataForChef(ClientPlayerControlsImpl_Default cpci)
+        internal static ChefSpecificData CollectDataForChef(ClientPlayerControlsImpl_Default cpci)
         {
             var data = new ChefSpecificData();
             var m_controls = cpci.m_controls();

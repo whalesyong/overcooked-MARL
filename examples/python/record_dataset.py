@@ -349,7 +349,7 @@ def write_run_metadata(run_dir):
         "created_local": local_iso(local_created),
         "local_timezone": local_created.tzname(),
         "record_dir": str(run_dir),
-        "schema": "overcooked_bridge_jsonl_zst_v1",
+        "schema": "overcooked_bridge_jsonl_zst_v2",
         "repo_root": str(ROOT),
         "pid": os.getpid(),
     }
