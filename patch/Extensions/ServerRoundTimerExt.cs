@@ -20,6 +20,16 @@ namespace SuperchargedPatch.Extensions
             return (float)f_m_timeLimit.GetValue(instance);
         }
 
+        public static float GetRoundTimer(this ServerRoundTimer instance)
+        {
+            return (float)f_m_roundTimer.GetValue(instance);
+        }
+
+        public static float GetTimeLeftSeconds(this ServerRoundTimer instance)
+        {
+            return (float)f_m_timeLeft.GetValue(instance);
+        }
+
         public static void SetRoundTimer(this ServerRoundTimer instance, float time)
         {
             f_m_roundTimer.SetValue(instance, time);

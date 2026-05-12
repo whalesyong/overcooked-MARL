@@ -15,6 +15,8 @@ namespace SuperchargedPatch.AlteredComponents
     [HarmonyPatch(typeof(EntitySerialisationRegistry), "StartSynchronisingEntry")]
     public static class EntitySerialisationRegistryStartSynchronisingEntryPatch
     {
+        private static int loggedEntries;
+
         [HarmonyPrefix]
         public static void Prefix(EntitySerialisationEntry entry)
         {
@@ -48,6 +50,12 @@ namespace SuperchargedPatch.AlteredComponents
                     entityRegistryDatum.SyncEntityTypes.Add((int)entry.m_ServerSynchronisedComponents._items[i].GetEntityType());
                 }
                 currentFrameData.EntityRegistry.Add(entityRegistryDatum);
+
+                if (loggedEntries < 10)
+                {
+                    loggedEntries += 1;
+                    Console.WriteLine($"Bridge sync entry: id={entityRegistryDatum.EntityId} name={entityRegistryDatum.Name} syncTypes={entityRegistryDatum.SyncEntityTypes.Count}");
+                }
             }
             catch (Exception exception)
             {

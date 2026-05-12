@@ -8,6 +8,7 @@ using Thrift.Transport;
 
 namespace Hpmv {
     public class InjectorServer {
+        private static readonly InputData EmptyInput = new InputData();
         private Thread tcpThread;
         private Thread requestThread;
         private bool stopRequested = false;
@@ -244,6 +245,12 @@ namespace Hpmv {
             }
         }
 
+        public InputData CurrentInputOrDefault {
+            get {
+                return currentInput ?? EmptyInput;
+            }
+        }
+
         public void CommitFrame() {
             // Make sure the drain previous input.
             if (currentInput == null)
@@ -252,6 +259,37 @@ namespace Hpmv {
             }
             currentInput = null;
             output.Enqueue(CurrentFrameData);
+            CurrentFrameData = new OutputData();
+        }
+
+        public void DiscardCurrentFrame() {
+            CurrentFrameData = new OutputData();
+        }
+
+        public void CommitFrameWithoutInputWait() {
+            currentInput = null;
+            output.Enqueue(CurrentFrameData);
+            CurrentFrameData = new OutputData();
+        }
+
+        public void SendCurrentFrameNowWithoutInputWait() {
+            Interceptor.Client client = null;
+            TcpClient tcpClient = null;
+            lock(sync) {
+                client = this.client;
+                tcpClient = this.tcpClient;
+            }
+
+            if (client != null && tcpClient != null) {
+                try {
+                    client.send_getNext(CurrentFrameData);
+                    tcpClient.GetStream().Flush();
+                } catch (Exception e) {
+                    Console.WriteLine("Failed to send final bridge frame: " + e.Message);
+                }
+            }
+
+            currentInput = null;
             CurrentFrameData = new OutputData();
         }
 

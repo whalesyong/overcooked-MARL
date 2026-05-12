@@ -87,6 +87,18 @@ struct OutputData {
     9: optional string invalidStateReason,
     10: i32 physicsFramesElapsed,
     11: i32 framesSinceLastNoPhysicsFrame,
+    12: optional double roundTimeSeconds,
+    13: optional double roundTimeRemainingSeconds,
+    14: i32 episodeId,
+    15: i32 episodeStep,
+    16: bool inEpisode,
+    17: bool episodeStart,
+    18: bool episodeEnd,
+    19: optional string episodeEndReason,
+    20: optional string gameState,
+    21: optional string levelName,
+    22: map<i32, OneInputData> observedInput,
+    23: bool fullSnapshot,
 }
 
 struct EntityIdOrRef {

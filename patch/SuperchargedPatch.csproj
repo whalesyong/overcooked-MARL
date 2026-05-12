@@ -1,14 +1,36 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netframework3.5</TargetFramework>
     <OutputType>Library</OutputType>
     <RunThriftCodegen>false</RunThriftCodegen>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="ApacheThrift" Version="0.9.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="ActiveStateCollector.cs" />
+    <Compile Include="ControllerHandler.cs" />
+    <Compile Include="EntityPathReference.cs" />
+    <Compile Include="EntityPathReferenceMarker.cs" />
+    <Compile Include="Helpers.cs" />
+    <Compile Include="TASLogicalButton.cs" />
+    <Compile Include="TASPatcher.cs" />
+    <Compile Include="Injection\BlockingQueue.cs" />
+    <Compile Include="Injection\Injector.cs" />
+    <Compile Include="Injection\InjectorServer.cs" />
+    <Compile Include="AlteredComponents\InputPatching.cs" />
+    <Compile Include="AlteredComponents\SynchronizationPatches.cs" />
+    <Compile Include="Extensions\ClientPlayerControlsImpl_DefaultExt.cs" />
+    <Compile Include="Extensions\MultiplayerControllerExt.cs" />
+    <Compile Include="Extensions\ServerKitchenFlowControllerBaseExt.cs" />
+    <Compile Include="Extensions\ServerRoundTimerExt.cs" />
+    <Compile Include="Extensions\SpawnableEntityCollectionExt.cs" />
+    <Compile Include="gen-csharp\Hpmv\*.cs" />
   </ItemGroup>
 
   <ItemGroup>

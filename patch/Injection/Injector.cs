@@ -1,17 +1,36 @@
-using System.Threading;
-
 namespace Hpmv {
     public class Injector {
-        public static InjectorServer Server { get; private set; }
+        private static readonly object sync = new object();
+        private static InjectorServer server;
 
-        static Injector() {
-            Server = new InjectorServer();
-            Server.Start();
+        public static InjectorServer Server
+        {
+            get
+            {
+                lock (sync)
+                {
+                    if (server == null)
+                    {
+                        server = new InjectorServer();
+                        server.Start();
+                    }
+                    return server;
+                }
+            }
         }
 
         public static void Destroy()
         {
-            Server.Destroy();
+            lock (sync)
+            {
+                if (server == null)
+                {
+                    return;
+                }
+
+                server.Destroy();
+                server = null;
+            }
         }
     }
 }

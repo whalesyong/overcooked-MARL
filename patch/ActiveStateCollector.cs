@@ -51,6 +51,11 @@ namespace SuperchargedPatch
             cache.Clear();
         }
 
+        public static void ClearCacheForFullSnapshot()
+        {
+            cache.Clear();
+        }
+
         public static void NotifyFrame(int frame)
         {
             if (frame <= FrameNumber)
@@ -156,7 +161,6 @@ namespace SuperchargedPatch
 
             }
             currentFrameData.FrameNumber = FrameNumber;
-            currentFrameData.InvalidStateReason = StateInvalidityManager.InvalidReason;
         }
 
         private static ChefSpecificData CollectDataForChef(ClientPlayerControlsImpl_Default cpci)

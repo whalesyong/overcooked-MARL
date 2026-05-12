@@ -57,7 +57,9 @@ namespace SuperchargedPatch
 
         public bool IsDown()
         {
-            var input = Injector.Server.CurrentInput;
+            var originalValue = original.IsDown();
+            ControllerHandler.RecordButtonInput(playerEntityId, type, down: originalValue);
+            var input = GetBridgeInput();
             if (input.Input?.ContainsKey(playerEntityId) ?? false)
             {
                 var inputData = input.Input[playerEntityId];
@@ -71,12 +73,14 @@ namespace SuperchargedPatch
                         return inputData.Dash.Down;
                 }
             }
-            return original.IsDown();
+            return originalValue;
         }
 
         public bool JustPressed()
         {
-            var input = Injector.Server.CurrentInput;
+            var originalValue = original.JustPressed();
+            ControllerHandler.RecordButtonInput(playerEntityId, type, justPressed: originalValue);
+            var input = GetBridgeInput();
             if (input.Input?.ContainsKey(playerEntityId) ?? false)
             {
                 var inputData = input.Input[playerEntityId];
@@ -90,12 +94,14 @@ namespace SuperchargedPatch
                         return inputData.Dash.JustPressed;
                 }
             }
-            return original.JustPressed();
+            return originalValue;
         }
 
         public bool JustReleased()
         {
-            var input = Injector.Server.CurrentInput;
+            var originalValue = original.JustReleased();
+            ControllerHandler.RecordButtonInput(playerEntityId, type, justReleased: originalValue);
+            var input = GetBridgeInput();
             if (input.Input?.ContainsKey(playerEntityId) ?? false)
             {
                 var inputData = input.Input[playerEntityId];
@@ -109,7 +115,14 @@ namespace SuperchargedPatch
                         return inputData.Dash.JustReleased;
                 }
             }
-            return original.JustReleased();
+            return originalValue;
+        }
+
+        private static InputData GetBridgeInput()
+        {
+            return ControllerHandler.ShouldUseLiveBridgeInput()
+                ? Injector.Server.CurrentInput
+                : Injector.Server.CurrentInputOrDefault;
         }
     }
 
@@ -133,7 +146,11 @@ namespace SuperchargedPatch
 
         public float GetValue()
         {
-            var input = Injector.Server.CurrentInput;
+            var originalValue = original.GetValue();
+            ControllerHandler.RecordMovementInput(playerEntityId, type, originalValue);
+            var input = ControllerHandler.ShouldUseLiveBridgeInput()
+                ? Injector.Server.CurrentInput
+                : Injector.Server.CurrentInputOrDefault;
             if (input.Input?.ContainsKey(playerEntityId) ?? false)
             {
                 var inputData = input.Input[playerEntityId];
@@ -145,7 +162,7 @@ namespace SuperchargedPatch
                         return (float)inputData.Pad.Y;
                 }
             }
-            return original.GetValue();
+            return originalValue;
         }
     }
 }
